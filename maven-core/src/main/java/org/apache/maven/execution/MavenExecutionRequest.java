@@ -178,6 +178,10 @@ public interface MavenExecutionRequest
     MavenExecutionRequest setLoggingLevel( int loggingLevel );
     int getLoggingLevel();
 
+    // Measure
+    MavenExecutionRequest setMeasure( boolean measure );
+    boolean isMeasure();
+
     // Update snapshots
     MavenExecutionRequest setUpdateSnapshots( boolean updateSnapshots );
     boolean isUpdateSnapshots();
@@ -279,8 +283,9 @@ public interface MavenExecutionRequest
     File getUserToolchainsFile();
     MavenExecutionRequest setUserToolchainsFile( File userToolchainsFile );
 
-    ExecutionListener getExecutionListener();
-    MavenExecutionRequest setExecutionListener( ExecutionListener executionListener );
+    List<ExecutionListener> getExecutionListeners();
+    MavenExecutionRequest addExecutionListener( ExecutionListener executionListener );
+    MavenExecutionRequest setExecutionListeners( List<ExecutionListener> executionListeners );
 
     ProjectBuildingRequest getProjectBuildingRequest();
 

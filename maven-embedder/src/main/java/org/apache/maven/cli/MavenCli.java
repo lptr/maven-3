@@ -818,15 +818,18 @@ public class MavenCli
             userToolchainsFile = MavenCli.DEFAULT_USER_TOOLCHAINS_FILE;
         }
 
+        boolean measure = commandLine.hasOption( CLIManager.MEASURE );
+
         request.setBaseDirectory( baseDirectory ).setGoals( goals )
             .setSystemProperties( cliRequest.systemProperties )
             .setUserProperties( cliRequest.userProperties )
             .setReactorFailureBehavior( reactorFailureBehaviour ) // default: fail fast
             .setRecursive( recursive ) // default: true
             .setShowErrors( showErrors ) // default: false
+            .setMeasure( measure ) // default: false
             .addActiveProfiles( activeProfiles ) // optional
             .addInactiveProfiles( inactiveProfiles ) // optional
-            .setExecutionListener( executionListener )
+            .addExecutionListener( executionListener )
             .setTransferListener( transferListener ) // default: batch mode which goes along with interactive
             .setUpdateSnapshots( updateSnapshots ) // default: false
             .setNoSnapshotUpdates( noSnapshotUpdates ) // default: false

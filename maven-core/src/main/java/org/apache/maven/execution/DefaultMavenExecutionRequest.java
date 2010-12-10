@@ -122,6 +122,8 @@ public class DefaultMavenExecutionRequest
 
     private int loggingLevel = LOGGING_LEVEL_INFO;
 
+    private boolean measure;
+
     private String globalChecksumPolicy;
 
     private boolean updateSnapshots = false;
@@ -130,7 +132,7 @@ public class DefaultMavenExecutionRequest
 
     private List<ArtifactRepository> pluginArtifactRepositories;
 
-    private ExecutionListener executionListener;
+    private List<ExecutionListener> executionListeners;
 
     private String threadCount;
 
@@ -177,6 +179,7 @@ public class DefaultMavenExecutionRequest
         copy.setInactiveProfiles( original.getInactiveProfiles() );
         copy.setTransferListener( original.getTransferListener() );
         copy.setLoggingLevel( original.getLoggingLevel() );
+        copy.setMeasure( original.isMeasure() );
         copy.setGlobalChecksumPolicy( original.getGlobalChecksumPolicy() );
         copy.setUpdateSnapshots( original.isUpdateSnapshots() );
         copy.setRemoteRepositories( original.getRemoteRepositories() );
@@ -184,7 +187,7 @@ public class DefaultMavenExecutionRequest
         copy.setRepositoryCache( original.getRepositoryCache() );
         copy.setWorkspaceReader( original.getWorkspaceReader() );
         copy.setNoSnapshotUpdates( original.isNoSnapshotUpdates() );
-        copy.setExecutionListener( original.getExecutionListener() );
+        copy.setExecutionListeners( original.getExecutionListeners() );
         return copy;
     }
 
@@ -369,6 +372,11 @@ public class DefaultMavenExecutionRequest
     public int getLoggingLevel()
     {
         return loggingLevel;
+    }
+
+    public boolean isMeasure()
+    {
+        return measure;
     }
 
     public boolean isOffline()
@@ -613,6 +621,12 @@ public class DefaultMavenExecutionRequest
     public MavenExecutionRequest setLoggingLevel( int loggingLevel )
     {
         this.loggingLevel = loggingLevel;
+
+        return this;
+    }
+
+    public MavenExecutionRequest setMeasure(boolean measure) {
+        this.measure = measure;
 
         return this;
     }
@@ -1006,14 +1020,36 @@ public class DefaultMavenExecutionRequest
         return this;
     }
 
-    public ExecutionListener getExecutionListener()
+    public List<ExecutionListener> getExecutionListeners()
     {
-        return executionListener;
+        if ( executionListeners == null)
+        {
+            executionListeners = new ArrayList<ExecutionListener>();
+        }
+
+        return executionListeners;
     }
 
-    public MavenExecutionRequest setExecutionListener( ExecutionListener executionListener )
+    public MavenExecutionRequest addExecutionListener( ExecutionListener executionListener )
     {
-        this.executionListener = executionListener;
+        if ( !getExecutionListeners().contains( executionListener ) )
+        {
+            getExecutionListeners().add( executionListener );
+        }
+
+        return this;
+    }
+
+    public MavenExecutionRequest setExecutionListeners( List<ExecutionListener> executionListeners )
+    {
+        if (executionListeners != null)
+        {
+            this.executionListeners = new ArrayList<ExecutionListener>(executionListeners);
+        }
+        else
+        {
+            this.executionListeners = null;
+        }
 
         return this;
     }

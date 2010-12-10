@@ -214,7 +214,7 @@ public class ProjectDependencyGraphStub
     {
         final DefaultMavenExecutionResult defaultMavenExecutionResult = new DefaultMavenExecutionResult();
         MavenExecutionRequest mavenExecutionRequest = new DefaultMavenExecutionRequest();
-        mavenExecutionRequest.setExecutionListener( new AbstractExecutionListener() );
+        mavenExecutionRequest.addExecutionListener( new AbstractExecutionListener() );
         mavenExecutionRequest.setGoals( Arrays.asList( "clean", "aggr", "install" ) );
         final MavenSession session = new MavenSession( null, null, mavenExecutionRequest, defaultMavenExecutionResult );
         final ProjectDependencyGraphStub dependencyGraphStub = new ProjectDependencyGraphStub();
